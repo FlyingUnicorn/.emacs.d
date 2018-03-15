@@ -1,0 +1,39 @@
+------------------
+-- Emacs notes. --
+------------------
+
+M-x ffap		- find file at any point
+M-x ido 		- turn on ido-mode (in config now)
+C-x C-w 		- save file as
+
+--- ido-mode ---
+- cancel ido-mode with C-f
+- ido-mode does not work with * e.g. *.c (wildcard)
+
+--- ibuffer ---
+C-x C-b			- open ibuffer (changed in the config)
+/m  			- enter major mode (file grouping)
+			  e,g, c-mode
+/g			- create a filter group
+//			- remove previous filter
+o or C-o o		- open buffer and switch to buffer
+C-o  	 		- open buffer but do not switch
+g			- update buffer
+m			- mark buffer
+u			- unmark buffer
+Operations on selected/marked buffers
+    A	      		- view
+    S			- save
+    D			- close
+    V			- discard changes
+e or f			- enter buffer
+=    			- compare buffer with (saved) file
+/n			- filter by name
+/\			- remove all active filters
+TAB			- switch group
+/S			- save group with name
+/R			- restore saved groups
+/X			- delete prev. stored groupsr
+/q			- quit ibuffer
+
+-- bookmark --
