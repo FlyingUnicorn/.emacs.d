@@ -4,7 +4,7 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 ; theme color
-(load-theme 'wheatgrass t)
+(load-theme 'alect-dark t)
 ; start auto-complte with emacs
 (require 'auto-complete)
 (require 'auto-complete-config)
