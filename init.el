@@ -62,7 +62,11 @@
 (ido-mode 1)
 ; Use Ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-
+; use // comments for c
+(add-hook 'c-mode-hook (lambda () (setq comment-start "//"
+					comment-end "")))
+; change key-binding for occur
+(global-set-key (kbd "C-c o") 'occur)
 
 
 
@@ -71,6 +75,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "7356632cebc6a11a87bc5fcffaa49bae528026a78637acd03cae57c091afd9b9" "bcc6775934c9adf5f3bd1f428326ce0dcd34d743a92df48c128e6438b815b44f" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "0ee3fc6d2e0fc8715ff59aed2432510d98f7e76fe81d183a0eb96789f4d897ca" default))
  '(ibuffer-saved-filter-groups
    '(("c-files-filter"
       ("C-files-filter"
@@ -108,7 +114,9 @@
        (mode . mail-mode)
        (mode . gnus-group-mode)
        (mode . gnus-summary-mode)
-       (mode . gnus-article-mode))))))
+       (mode . gnus-article-mode)))))
+ '(package-selected-packages
+   '(alect-themes hc-zenburn-theme zenburn-theme creamsody-theme yasnippet nyan-mode iedit function-args flycheck color-theme challenger-deep-theme auto-complete-c-headers)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

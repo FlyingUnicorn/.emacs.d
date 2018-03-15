@@ -5,6 +5,64 @@
 M-x ffap		- find file at any point
 M-x ido 		- turn on ido-mode (in config now)
 C-x C-w 		- save file as
+M-r			- re-position point to top, middle, and buttom og currenct screeen
+M-g g			- goto line
+C-M-f			- move forward over a balanced epression (e.g. parentheses)
+C-M-b			- same as prev. but back
+C-M-k			- kill balanced expression forward
+C-M-<SPC>		- put mark after the following expression (e.g. mark and then copy)
+C-S-<DEL>		- kill an enture line (<DEL> is backspace key)
+M-\			- kill all whitespace at point
+C-k			- kill to the end of the line
+M-/			- complete word (can be used for long words, .i.e. write the beginning then use the command)
+			  can be used to iterate over several possible matches
+C-y			- get most recently killed element
+C-<num> C-y		- get element <num> from the kill-ring
+C-y M-y			- iteate over the kill-ring with M-y
+C-h v			- view kill-ring
+C-<SPC> C-<SPC>		- set mark in buffer
+C-u C-<SPC>		- pop mark from buffer
+C-w 			- kill region
+M-w			- copy region
+C-y			- paste/yank region
+ 			(after yanking you can move the cursor back to the beginning with C-u C-<SPC>
+C-x C-x			- execute command exchange-point-and-mark, used with the set mark command?
+C-x C-<SPC>		- global mark ring (iterate)
+C-/ 			- undo
+C-s			- search
+
+C-r			- backward search
+C-s C-w			- search for the word at the pointer
+    			(repeat C-w to extend the search word)
+C-s M-p			- M-p will give previous searched for input
+    M-n			- M-n gives the next input
+M-s .			- search for word at pointer
+M-s h .			- high-light symbol at pointer
+M-s h u <enter>		- remove high-lighting
+C-x z 			- repeat last command
+M-% 			- query-replace, will prompt user before replace (beneth current point)
+			  ! = replace all
+			  
+
+--- Occur ---
+M-s o 			- run Occur (lists all line with the input)
+C-c o (defined)		 if you run the command in isearch the input will be copied to Occur
+M-g n			- next match
+M-g p			- prev. match
+o   			- jump to match and switch point to buffer (in *Occur* buffer)
+C-o			- jump to match (in *Occur* buffer)
+e			- enter Occur edit mode (in *Occur* buffer)
+C-c C-c			- exit editing mode (in *Occur* buffer)
+g   			- update the file (in *Occur* buffer)
+--- Multi-Occur ---
+same as occur but asks for buffers to search
+
+
+--- Programming commands ---
+M-;	       		-sdfmment/uncomment code (changed in config so that // is used for c)
+
+
+dasd
 
 --- ido-mode ---
 - cancel ido-mode with C-f
@@ -12,7 +70,7 @@ C-x C-w 		- save file as
 
 --- ibuffer ---
 C-x C-b			- open ibuffer (changed in the config)
-/m  			- enter major mode (file grouping)
+/m  			- enter major mode (file grouping)cvxz
 			  e,g, c-mode
 /g			- create a filter group
 //			- remove previous filter
@@ -36,4 +94,21 @@ TAB			- switch group
 /X			- delete prev. stored groupsr
 /q			- quit ibuffer
 
--- bookmark --
+-- bookmark --asdas
+C-x r m			- set bookmark, enter name
+C-x r b			- jump to bookmark (TAB to get bookmark list)
+C-x r l 		- opens the list of all bookmarks
+When in bookmark list
+s			- save bookmark list to file
+o			- open bookmar in other window adn point to it.
+			(if you want the buffer to be opened in vertical, use C-x 3 before o command)
+C-o			- same as o but remain in bookmark list
+r 			- rename bookmark at point
+m			- mark bookmark
+v			- display all marked bookmarks
+d			- flag bookmark for deletion
+x			- delete flagged bookmarks
+u			- unmark flagged bookmark
+
+
+
