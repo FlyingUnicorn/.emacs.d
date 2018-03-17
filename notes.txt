@@ -1,3 +1,4 @@
+
 ------------------
 -- Emacs notes. --
 ------------------
@@ -42,7 +43,18 @@ M-s h u <enter>		- remove high-lighting
 C-x z 			- repeat last command
 M-% 			- query-replace, will prompt user before replace (beneth current point)
 			  ! = replace all
-			  
+M-p			- prev. mini-buffer input
+M-n			- next minbuffer input
+C-<NUM> <CMD>		- will run <CMD> <NUM> number of times (will not work for in terminal)
+C-u C-<CMD>		- will repeat <CMD> 4 times (C-u default)
+    			  C-u C-u will reapeat 4^2 C-u C-u C-u will reat 4^3 and so forth
+
+--- Window ---
+C-x 4 C-f		- open file in new window, and move point
+C-x 4 f			(same as above)
+C-x 4 C-o		- select buffer from buffer list in new window do not move point
+C-x 4 b			- open selected buffer and moce point
+C-x 4 c			- clone current buffer and give it a new buffer name
 
 --- Occur ---
 M-s o 			- run Occur (lists all line with the input)
@@ -54,15 +66,85 @@ C-o			- jump to match (in *Occur* buffer)
 e			- enter Occur edit mode (in *Occur* buffer)
 C-c C-c			- exit editing mode (in *Occur* buffer)
 g   			- update the file (in *Occur* buffer)
+
 --- Multi-Occur ---
 same as occur but asks for buffers to search
 
 
+--- File management with Dired ---
+C-x d	 	    	- select directory and start dired in that directory
+C-x 4 d			- same as above, in other window
++     			- create directory
+C-x C-f			- create file-
+f e <RET>		- open file at point
+o   			- open file in another window
+C-o			- open file in another window, do not select window
+^			- open parent dir and create another Dired buffer of parent directory
+=			- diff files
+C			- prompt for location to copy file at point (if not file is marked)
+R			- prompt for a location to rename of moce a file at point (if no file is marked)
+H			- prompt for location to create a hard link
+S			- prompt for location to create a symbolic link
+M 			- change permission bits of a file at point (or marked)
+d			- flag file for deletion
+u 			- remove marked file
+x 			- confirm and delete flagged files
+! 			- execute a command on selected files (like shell)
+&			- execute a command on selected files asynchronously (like shell)
+i			- add sub-directory to dired (when point is on other dir)
+C-x r m			- save bookmark to dired buffer
+C-x r 1			- open dired buffer via bookmark
+
+--- Registers ---
+- each register has a name that consists for a single character (a != A)
+- registers are for quick access to things e.g. piece of text, a rectange, a number, a file, a window config.
+-- Save window config --
+C-x r w REG		- save the window config of current buffer into REG
+C-x r f REG		- save the state of all frames, including their windows into REG
+C-x r j REG		- jumo to register REG
+-- Save test --
+(good for storing text when you do not want to change the kill-ring
+C-x r s REG		- copy region into REG
+C-x r i REG		- insert text from REG
+-- Save position --
+C-x r <SPC> REG		- record the position of the point and the current buffer into REG
+C-x r j REG 		- jump to the posion and buffer saved in REG (will reopen buffer if killed)
+-- Save numbers --
+(use text if you want to copy)
+C-u number C-x r n REG	- store number into reg
+C-u number C-x r + REG	- if REG contains a number, increment the number in that register with number
+C-x r i REG    	   	- insert number from REG
+
+--- Macro ---
+f3 or C-x (		- start macro recording
+f4 or C-x )		- stop macro recoring
+C-x e or f4		- playback macro
+C-x C-k n		- give a command name to the most recently used macro
+C-x C-k b		- bind the most recently defined keyboard macro to a key sequence
+save macro in file, see tutorial
+edit macro, see tutoial
+
+--- Grep ---
+M-x rgrep		- search for text with external grep command
+M-g p			- prev. in *grep* buffer
+M-g n			- next in *grep* buffer
+<TAB> 			- next match, do not display buffer
+S-<TAB>			- same as <TAB> but prev.
+{			- go to next file, 
+}			- prev. file
+C-o			- display matched location, but do not switch buffer
+n			- next
+p			- prev
+<RET>			- display matched location, switch buffer
+g			- refresh
+q			- quit
+
+
+
 --- Programming commands ---
-M-;	       		-sdfmment/uncomment code (changed in config so that // is used for c)
+M-;	       		-comment/uncomment code (changed in config so that // is used for c)
 
 
-dasd
 
 --- ido-mode ---
 - cancel ido-mode with C-f
