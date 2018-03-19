@@ -1,46 +1,10 @@
-
 ------------------
 -- Emacs notes. --
 ------------------
+M-x load-file		- load config file
+M-x package-refresh-contents
+M-x eval-buffer		- reload config
 
-M-x ffap		- find file at any point
-M-x ido 		- turn on ido-mode (in config now)
-C-x C-w 		- save file as
-M-r			- re-position point to top, middle, and buttom og currenct screeen
-M-g g			- goto line
-C-M-f			- move forward over a balanced epression (e.g. parentheses)
-C-M-b			- same as prev. but back
-C-M-k			- kill balanced expression forward
-C-M-<SPC>		- put mark after the following expression (e.g. mark and then copy)
-C-S-<DEL>		- kill an enture line (<DEL> is backspace key)
-M-\			- kill all whitespace at point
-C-k			- kill to the end of the line
-M-/			- complete word (can be used for long words, .i.e. write the beginning then use the command)
-			  can be used to iterate over several possible matches
-C-y			- get most recently killed element
-C-<num> C-y		- get element <num> from the kill-ring
-C-y M-y			- iteate over the kill-ring with M-y
-C-h v			- view kill-ring
-C-<SPC> C-<SPC>		- set mark in buffer
-C-u C-<SPC>		- pop mark from buffer
-C-w 			- kill region
-M-w			- copy region
-C-y			- paste/yank region
- 			(after yanking you can move the cursor back to the beginning with C-u C-<SPC>
-C-x C-x			- execute command exchange-point-and-mark, used with the set mark command?
-C-x C-<SPC>		- global mark ring (iterate)
-C-/ 			- undo
-C-s			- search
-
-C-r			- backward search
-C-s C-w			- search for the word at the pointer
-    			(repeat C-w to extend the search word)
-C-s M-p			- M-p will give previous searched for input
-    M-n			- M-n gives the next input
-M-s .			- search for word at pointer
-M-s h .			- high-light symbol at pointer
-M-s h u <enter>		- remove high-lighting
-C-x z 			- repeat last command
 M-% 			- query-replace, will prompt user before replace (beneth current point)
 			  ! = replace all
 M-p			- prev. mini-buffer input
@@ -141,8 +105,8 @@ q			- quit
 
 
 
---- Programming commands ---
-M-;	       		-comment/uncomment code (changed in config so that // is used for c)
+--- Development ---
+-comment/uncomment code (changed in config so that // is used for c)
 
 
 
@@ -192,7 +156,36 @@ d			- flag bookmark for deletion
 x			- delete flagged bookmarks
 u			- unmark flagged bookmark
 
-
-
-
-
+--- helm ---
+C-<SPC>			- mark candidate
+M-a			- mark all
+C-c C-i			- insert marked candidates in current buffer
+C-t 			- switch between vertiacl and horizontal helm window
+C-c ?			- help
+C-w 			- yank word at point into the help prompt
+M-n			- yank symbol at point (dont know how this works)
+C-h f			- describe-function, takes the symbol at point as the default search function
+C-h v			- describe-variable, takes the symbol at point as the default search variable
+C-h w			- where-is, takes symbol at point as default for showing the key binding for a command
+C-h C-h			- show all
+M-y 			- show helm-kill-ring (not default)
+C-s 			- search in helm-mini
+(in helm-mini search with buffers(not recentf) containin text with @text)
+-- helm-find-file --
+C-l			- go up one level
+C-r			- go back down to prev level
+<TAB>			- show file, toggle with current buffer
+C-s			- grep
+C-u C-s			- recursive grep
+~/  			- reach home
+/ 			- reach root
+./			- reach default directory (inital start of session)
+-- helm-semantic-or-imenu --
+C-c h i			- open imenu
+C-c h m			- open man pages
+C-c h /			- find files in current dir
+C-u C-c h /		- prompt what dir to use
+C-c h l	  		- locate
+C-c h o			- occur
+C-c h <SPC>		- mark ring
+C-c p h 		- helm projectile, browse files in project
