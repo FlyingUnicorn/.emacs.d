@@ -106,7 +106,21 @@ q			- quit
 
 
 --- Development ---
--comment/uncomment code (changed in config so that // is used for c)
+- comment/uncomment code (changed in config so that // is used for c)
+C-M-f            - forward expression
+    b            - backward
+    k            - kill balanced expression
+    <SPC>        - mark expression
+    a            - beginning of function
+    e            - end of function
+    h            - mark function
+-- ggtags --
+M-.              - ggtags-find-tag-dwim, jump/list reference
+M-,              - jump back
+M-p / n          - navigate ggtags list prev / next
+M-g s            - search list with Isearch
+M-]              - ggtags-find-reference
+
 
 
 
@@ -140,7 +154,7 @@ TAB			- switch group
 /X			- delete prev. stored groupsr
 /q			- quit ibuffer
 
--- bookmark --asdas
+-- bookmark --
 C-x r m			- set bookmark, enter name
 C-x r b			- jump to bookmark (TAB to get bookmark list)
 C-x r l 		- opens the list of all bookmarks
@@ -189,3 +203,14 @@ C-c h l	  		- locate
 C-c h o			- occur
 C-c h <SPC>		- mark ring
 C-c p h 		- helm projectile, browse files in project
+
+
+
+--- speedbar sr-speedbar ---
+<SPC>           - open child node
+<RET>           - open file in other window
+                  open expand dir
+U               - parent dir
+n / p           - navigate
+b               - switch to buffers
+f               - switch to files
