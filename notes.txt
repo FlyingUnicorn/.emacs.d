@@ -65,8 +65,8 @@ C-x r 1			- open dired buffer via bookmark
 -- Save window config --
 C-x r w REG		- save the window config of current buffer into REG
 C-x r f REG		- save the state of all frames, including their windows into REG
-C-x r j REG		- jumo to register REG
--- Save test --
+C-x r j REG		- jump to register REG
+-- Save text --
 (good for storing text when you do not want to change the kill-ring
 C-x r s REG		- copy region into REG
 C-x r i REG		- insert text from REG

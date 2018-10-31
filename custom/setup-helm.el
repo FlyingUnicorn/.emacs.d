@@ -43,7 +43,9 @@
           ;; you can customize helm-do-grep to execute ack-grep
           ;; helm-grep-default-command "ack-grep -Hn --smart-case --no-group --no-color %e %p %f"
           ;; helm-grep-default-recurse-command "ack-grep -H --smart-case --no-group --no-color %e %p %f"
-          helm-split-window-in-side-p t ;; open helm buffer inside current window, not occupy whole other window
+
+          ; test remove
+          ;;helm-split-window-in-side-p t ;; open helm buffer inside current window, not occupy whole other window
 
           helm-echo-input-in-header-line t
 
@@ -67,7 +69,8 @@
           helm-buffer-skip-remote-checking t
           helm-locate-fuzzy-match t
           helm-display-header-line nil
-          helm-recentf-fuzzy-match t)
+          helm-recentf-fuzzy-match t
+          helm-buffer-max-length nil)
 
     (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
 
@@ -110,7 +113,7 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Locate the helm-swoop folder to your path
     (use-package helm-swoop
-      :bind (("C-c h o" . helm-swoop)
+      :bind (("C-c o" . helm-swoop)
              ("C-c s" . helm-multi-swoop-all))
       :config
       ;; When doing isearch, hand the word over to helm-swoop

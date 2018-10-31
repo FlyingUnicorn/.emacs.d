@@ -1,4 +1,3 @@
-
 (require 'package)
 (add-to-list 'package-archives
 	         '("melpa" . "http://melpa.org/packages/") t)
@@ -37,19 +36,70 @@
 
 ; NYAN cat mode
 (require 'nyan-mode)
-(setq nyan-bar-length 20)
+(setq nyan-bar-length 20)1
 (setq nyan-animate-nyancat t)
 (nyan-mode)
 
 ; Use Ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 ; use // comments for c
-(add-hook 'c-mode-hook (lambda () (setq comment-start "//"
-					comment-end "")))
+;(add-hook 'c-mode-hook (lambda () (setq comment-start "//"
+;					comment-end "")))
+
+(defun comment-or-uncomment-line-or-region ()
+  "Comment or uncomment the current line or region"
+  (interactive)
+  (if (region-active-p)
+      (comment-or-uncomment-region (region-beginning) (region-end))
+    (comment-or-uncomment-region (line-beginning-position) (line-end-position))
+    )
+  )
+(global-set-key (kbd "C-;") 'comment-or-uncomment-line-or-region)
+
 
 (persistent-scratch-setup-default)
 (persistent-scratch-autosave-mode 1)
 
+(global-set-key (kbd "C-z") 'eshell)
+
+(defun duplicate-line()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (next-line 1)
+  (yank)
+  )
+(global-set-key (kbd "C-c d") 'duplicate-line)
+
+(global-set-key (kbd "C-x C-x") 'kill-this-buffer)
+
+(defun open-this-hdr-src()
+  "Open this files header or source file."
+  (interactive)
+  (setq target_filename nil)
+  (setq this_filename (buffer-file-name))
+  (setq this_filename_ext (file-name-extension this_filename))
+
+  (cond ((string-equal this_filename_ext "c")
+           (setq target_filename (replace-regexp-in-string "\\.c" ".h" this_filename nil 'literal)))
+         ((string-equal this_filename_ext "h")
+            (setq target_filename (replace-regexp-in-string "\\.h" ".c" this_filename nil 'literal))))
+
+  (if target_filename
+    (if (file-exists-p target_filename)
+      (find-file target_filename)
+      (message "open-this-hdr-src - file does not exist: %s" target_filename))
+    (message "open-this-hdr-src - not valid file extention: .%s" this_filename_ext)))
+(global-set-key (kbd "C-c C-f") 'open-this-hdr-src)
+
+;;(global-set-key (kbd "<f1>") 'keyboard-escape-quit)
+;; (global-unset-key (kbd "<ESC> <ESC>"))
+
+(global-set-key (kbd "C-c C-g") 'projectile-grep)
+(global-set-key (kbd "C-j") 'newline-and-indent)
+(global-set-key (kbd "C-q") 'c-electric-backspace)
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;    Development    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -61,9 +111,9 @@
 ;; use space to indent by default
 (setq-default indent-tabs-mode nil)
 
-;; set appearance of a tab that is represented by 4 spaces
-(setq-default  tab-width 4)
-(setq tab-stop-list (number-sequence 4 20 4))
+;; set appearance of a tab that is represented by 2 spaces
+(setq-default  tab-width 2)
+;(setq tab-stop-list (number-sequence 4 20 4))
 ;; Compilation
 (global-set-key (kbd "<f5>") (lambda ()
                                (interactive)
@@ -85,191 +135,73 @@
  gdb-show-main t
 )
 
+(setq
+ c-default-style "bsd"
+ c-basic-offset 2
+)
+(which-function-mode 1)
 
 ;;;;;;;;;;;;;;;;;;
 ;;    GGTAGS    ;;
 ;;;;;;;;;;;;;;;;;;
 (require 'setup-ggtags)
-;;  (require 'ggtags)
-;;  (ggtags-mode 1)
-;;  (add-hook 'c-mode-common-hook
-;;            (lambda ()
-;;              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
-;;                (ggtags-mode 1))))
-;; (dolist (map (list ggtags-mode-map))
-;;   (define-key map  (kbd "C-c g s") 'ggtags-find-other-symbol)
-;;   (define-key map  (kbd "C-c g h") 'ggtags-view-tag-history)
-;;   (define-key map  (kbd "C-c g r") 'ggtags-find-reference)
-;;   (define-key map  (kbd "C-c g f") 'ggtags-find-file)
-;;   (define-key map  (kbd "C-c g c") 'ggtags-create-tags)
-;;   (define-key map  (kbd "C-c g u") 'ggtags-update-tags)
-;;   (define-key map  (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
-;;   (define-key map  (kbd "M-.") 'ggtags-find-tag-dwim)
-;;   (define-key map  (kbd "M-,") 'pop-tag-mark)
-;;   (define-key map  (kbd "C-c <") 'ggtags-prev-mark)
-;;   (define-key map  (kbd "C-c >") 'ggtags-next-mark))
-
-
 
 ;;;;;;;;;;;;;;;;;
 ;;    HELM     ;;
 ;;;;;;;;;;;;;;;;;
 (require 'setup-helm)
-;; (global-set-key (kbd "M-x") 'helm-M-x)
-;; (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-;; (global-set-key (kbd "C-x b") 'helm-mini)
-;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;; (global-set-key (kbd "C-c h o") 'helm-occur)
-;; (global-set-key (kbd "C-c h SPC") 'helm-all-mark-rings)
-;; (global-set-key (kbd "C-c h x") 'helm-register)
-;; (global-set-key (kbd "C-c p h") 'helm-projectile)
-;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
-;; (setq helm-M-fuzzy-match t
-;;       helm-recentf-fuzzy-match t
-;;       helm-semantic-fuzzy-match t
-;;       helm-imenu-fuzzy-match t)
-;; (require 'helm)
-;; (require 'helm-config)
-
-;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
-;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
-;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
-;; (global-set-key (kbd "C-c h") 'helm-command-prefix)
-;; (global-unset-key (kbd "C-x c"))
-
-;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
-;; (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-
-;; (when (executable-find "curl")
-;;   (setq helm-google-suggest-use-curl-p t))
-
-;; (when (executable-find "ack-grep")
-;;   (setq helm-grep-default-command "ack-grep -Hn --no-group --no-color %e %p %f"
-;; 	helm-grep-default-recurse-command "ack-grep -H --no-group --no-color %e %p %f"))
-
-;; (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-;;       helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-;;       helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-;;       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-;;       helm-ff-file-name-history-use-recentf t
-;;       helm-echo-input-in-header-line t)
-
-;; (defun spacemacs//helm-hide-minibuffer-maybe ()
-;;   "Hide minibuffer in Helm session if we use the header line as input field."
-;;   (when (with-helm-buffer helm-echo-input-in-header-line)
-;;     (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-;;       (overlay-put ov 'window (selected-window))
-;;       (overlay-put ov 'face
-;;                    (let ((bg-color (face-background 'default nil)))
-;;                      `(:background ,bg-color :foreground ,bg-color)))
-;;       (setq-local cursor-type nil))))
-
-;; (add-hook 'helm-minibuffer-set-up-hook
-;;           'spacemacs//helm-hide-minibuffer-maybe)
-
-;; (setq helm-autoresize-max-height 0)
-;; (setq helm-autoresize-min-height 20)
-;; (helm-autoresize-mode 1)
-
-;; (helm-mode 1)
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;;    AUTO COMPLETE    ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (require 'auto-complete)
-;; (require 'auto-complete-config)
-;; (ac-config-default)
-
-;; (require 'yasnippet)
-;; (yas-global-mode 1)
-;; ; function for auto complete headers
-;; (defun my:ac-c-header-init ()
-;;   (require 'auto-complete-c-headers)
-;;   (add-to-list 'ac-sources 'ac-source-c-headers)
-;;   (setq achead:include-directories
-;;     (append '("/usr/include/c++/5"
-;; 	      "/usr/include/x86_64-linux-gnu/c++/5"
-;; 	      "/usr/include/c++/5/backward"
-;; 	      "/usr/lib/gcc/x86_64-linux-gnu/5/include"
-;; 	      "/usr/local/include"
-;; 	      "/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"
-;; 	      "/usr/include/x86_64-linux-gnu"
-;; 	      "/usr/include")
-;; 	      achead:include-directories))
-;; )
-;; ; call function from c/c++ hooks
-;; (add-hook 'c++-mode-hook 'my:ac-c-header-init)
-;; (add-hook 'c-mode-hook 'my:ac-c-header-init)
-
-;; ; turn on Semantic
-;; (semantic-mode 1)
-;; (defun my:add-semantic-to-autocomplete()
-;;   (add-to-list 'ac-sources 'ac-source-semantic)
-;; )
-;; (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
-
-;turn on ede mode
-;(global-ede-mode 1)
-; create project for our program
-;(ede-cpp-root-project "my_test_proj"
-;		      :file "/mnt/c/test/Makefile"
-;		      :include-path '("/inc"
-;				      "/inc2"))
-;(global-semantic-idle-scheduler-mode 1)
-; Enable Ido mode
-;(setq ido-enable-flex-matching t)
-;(setq ido-everywhere t)
-;(setq ido-use-filename-at-point 'guess)
-;(ido-mode 1)
-; change key-binding for occur
-;(global-set-key (kbd "C-c o") 'occur)
-
+;; (setq helm-split-window-default-side 'below)
+;(setq helm-split-window-preferred-function 'right)
+;; (setq helm-split-window-
 
 ;;;;;;;;;;;;;;;;;;;;
 ;;    SEMANTIC    ;;
 ;;;;;;;;;;;;;;;;;;;;
 (semantic-mode 1)
 (semantic-add-system-include "/usr/local/include")
-
+(semantic-add-system-include "/mnt/c/devtools/WindRiver/diab/5.9.4.8/include")
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;;    COMPANY MODE    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;
-
+(require 'company)
+(require 'company-c-headers)
+(company-mode 1)
+(add-hook 'global-init-hook 'global-company-mode)
+(add-to-list 'company-backends 'company-c-headers)
+(add-to-list 'company-c-headers-path-system "/mnt/c/devtools/WindRiver/diab/5.9.4.8/include/")
 ; IRONY
-(use-package irony
-  :ensure t
-  :defer t
-  :init
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'c++-mode-hook 'irony-mode)
-  :config
-  (defun my-irony-mode-hook ()
-    (define-key irony-mode-map [remap completion-at-point]
-      'irony-completion-at-point-async)
-    (define-key irony-mode-map [remap complete-symbol]
-      'irony-completion-at-point-async))
-  (add-hook 'irony-mode-hook 'my-irony-mode-hook)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-  )
+;; (use-package irony
+;;   :ensure t
+;;   :defer t
+;;   :init
+;;   (add-hook 'c-mode-hook 'irony-mode)
+;;   (add-hook 'c++-mode-hook 'irony-mode)
+;;   :config
+;;   (defun my-irony-mode-hook ()
+;;     (define-key irony-mode-map [remap completion-at-point]
+;;       'irony-completion-at-point-async)
+;;     (define-key irony-mode-map [remap complete-symbol]
+;;       'irony-completion-at-point-async))
+;;   (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+;;   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+;;   )
 
-(use-package company
-  :ensure t
-  :defer t
-  :init (add-hook 'after-init-hook 'global-company-mode)
-  :config
-  (use-package company-irony :ensure t :defer t)
-  (setq company-idle-delay              nil
-        company-minimum-prefix-length   2
-        company-show-numbers            t
-        company-tooltip-limit           20
-        company-dabbrev-downcase        nil
-        company-backends                '((company-irony company-gtags))
-        )
-  :bind ("C-;" . company-complete-common)
-  )
+;; (use-package company
+;;   :ensure t
+;;   :defer t
+;;   :init (add-hook 'after-init-hook 'global-company-mode)
+;;   :config
+;;   (use-package company-irony :ensure t :defer t)
+;;   (setq company-idle-delay              nil
+;;         company-minimum-prefix-length   2
+;;         company-show-numbers            t
+;;         company-tooltip-limit           20
+;;         company-dabbrev-downcase        nil
+;;         company-backends                '((company-irony company-gtags))
+;;         )
+;;   :bind ("C-;" . company-complete-common)
+;;   )
+
 
 ;;;;;;;;;;;;;;;;;;;;
 ;;    Speedbar    ;;
@@ -280,12 +212,7 @@
 (setq speedbar-show-unknown-files t)
 (setq speedbar-use-images nil)
 (setq sr-speedbar-right-side nil)
-
-
-
-
-
-
+(setq sr-speedbar-width-x 40)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -295,13 +222,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "7356632cebc6a11a87bc5fcffaa49bae528026a78637acd03cae57c091afd9b9" "bcc6775934c9adf5f3bd1f428326ce0dcd34d743a92df48c128e6438b815b44f" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "0ee3fc6d2e0fc8715ff59aed2432510d98f7e76fe81d183a0eb96789f4d897ca" default))
+   (quote
+    ("bf390ecb203806cbe351b966a88fc3036f3ff68cd2547db6ee3676e87327b311" "10a31b6c251640d04b2fa74bd2c05aaaee915cbca6501bcc82820cdc177f5a93" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "7356632cebc6a11a87bc5fcffaa49bae528026a78637acd03cae57c091afd9b9" "bcc6775934c9adf5f3bd1f428326ce0dcd34d743a92df48c128e6438b815b44f" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "0ee3fc6d2e0fc8715ff59aed2432510d98f7e76fe81d183a0eb96789f4d897ca" default)))
  '(ibuffer-saved-filter-groups
-   '(("c-files-filter"
+   (quote
+    (("c-files-filter"
       ("C-files-filter"
-       (used-mode . c-mode)))))
+       (used-mode . c-mode))))))
  '(ibuffer-saved-filters
-   '(("programming"
+   (quote
+    (("programming"
       (or
        (derived-mode . prog-mode)
        (mode . ess-mode)
@@ -333,9 +263,10 @@
        (mode . mail-mode)
        (mode . gnus-group-mode)
        (mode . gnus-summary-mode)
-       (mode . gnus-article-mode)))))
+       (mode . gnus-article-mode))))))
  '(package-selected-packages
-   '(company-irony company-irony-c-headers company-c-headers company ac-c-headers persistent-scratch sr-speedbar use-package helm-projectile alect-themes hc-zenburn-theme zenburn-theme creamsody-theme yasnippet nyan-mode iedit function-args flycheck color-theme challenger-deep-theme auto-complete-c-headers)))
+   (quote
+    (company-irony company-irony-c-headers company-c-headers company ac-c-headers persistent-scratch sr-speedbar use-package helm-projectile alect-themes hc-zenburn-theme zenburn-theme creamsody-theme yasnippet nyan-mode iedit function-args flycheck color-theme challenger-deep-theme auto-complete-c-headers))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
