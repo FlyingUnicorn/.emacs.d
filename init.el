@@ -25,7 +25,8 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ; theme color
-(load-theme 'alect-dark t)
+;(load-theme 'alect-dark t)
+(load-theme 'wombat)
 
 ; add line numbers
 (global-linum-mode t)
@@ -35,10 +36,10 @@
 (define-key global-map (kbd "C-c ;") 'iedit-mode)
 
 ; NYAN cat mode
-(require 'nyan-mode)
-(setq nyan-bar-length 20)1
-(setq nyan-animate-nyancat t)
-(nyan-mode)
+;(require 'nyan-mode)
+;(setq nyan-bar-length 20)1
+;(setq nyan-animate-nyancat t)
+;(nyan-mode)
 
 ; Use Ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -99,7 +100,8 @@
 
 (global-set-key (kbd "C-c C-g") 'projectile-grep)
 (global-set-key (kbd "C-j") 'newline-and-indent)
-(global-set-key (kbd "C-q") 'c-electric-backspace)
+(global-set-key (kbd "C-q") 'backward-delete-char)
+                
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;    Development    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
