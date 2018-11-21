@@ -61,7 +61,7 @@
 (persistent-scratch-setup-default)
 (persistent-scratch-autosave-mode 1)
 
-(global-set-key (kbd "C-z") 'eshell)
+(global-set-key (kbd "C-z") 'projectile-run-eshell)
 
 (defun duplicate-line()
   (interactive)
@@ -76,32 +76,15 @@
 
 (global-set-key (kbd "C-x C-x") 'kill-this-buffer)
 
-(defun open-this-hdr-src()
-  "Open this files header or source file."
-  (interactive)
-  (setq target_filename nil)
-  (setq this_filename (buffer-file-name))
-  (setq this_filename_ext (file-name-extension this_filename))
-
-  (cond ((string-equal this_filename_ext "c")
-           (setq target_filename (replace-regexp-in-string "\\.c" ".h" this_filename nil 'literal)))
-         ((string-equal this_filename_ext "h")
-            (setq target_filename (replace-regexp-in-string "\\.h" ".c" this_filename nil 'literal))))
-
-  (if target_filename
-    (if (file-exists-p target_filename)
-      (find-file target_filename)
-      (message "open-this-hdr-src - file does not exist: %s" target_filename))
-    (message "open-this-hdr-src - not valid file extention: .%s" this_filename_ext)))
-(global-set-key (kbd "C-c C-f") 'open-this-hdr-src)
-
 ;;(global-set-key (kbd "<f1>") 'keyboard-escape-quit)
 ;; (global-unset-key (kbd "<ESC> <ESC>"))
 
-(global-set-key (kbd "C-c C-g") 'projectile-grep)
+;(global-unset-key (kbd "C-c C-g"))
+;(global-set-key (kbd "C-c C-g") 'projectile-grep)
+
 (global-set-key (kbd "C-j") 'newline-and-indent)
 (global-set-key (kbd "C-q") 'backward-delete-char)
-                
+
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;    Development    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -152,58 +135,29 @@
 ;;    HELM     ;;
 ;;;;;;;;;;;;;;;;;
 (require 'setup-helm)
-;; (setq helm-split-window-default-side 'below)
-;(setq helm-split-window-preferred-function 'right)
-;; (setq helm-split-window-
 
 ;;;;;;;;;;;;;;;;;;;;
 ;;    SEMANTIC    ;;
 ;;;;;;;;;;;;;;;;;;;;
 (semantic-mode 1)
-(semantic-add-system-include "/usr/local/include")
-(semantic-add-system-include "/mnt/c/devtools/WindRiver/diab/5.9.4.8/include")
+;(semantic-add-system-include "/usr/local/include")
+;(semantic-add-system-include "/mnt/c/devtools/WindRiver/diab/5.9.4.8/include")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;;    COMPANY MODE    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'company)
 (require 'company-c-headers)
-(company-mode 1)
+(global-company-mode 1)
 (add-hook 'global-init-hook 'global-company-mode)
 (add-to-list 'company-backends 'company-c-headers)
-(add-to-list 'company-c-headers-path-system "/mnt/c/devtools/WindRiver/diab/5.9.4.8/include/")
-; IRONY
-;; (use-package irony
-;;   :ensure t
-;;   :defer t
-;;   :init
-;;   (add-hook 'c-mode-hook 'irony-mode)
-;;   (add-hook 'c++-mode-hook 'irony-mode)
-;;   :config
-;;   (defun my-irony-mode-hook ()
-;;     (define-key irony-mode-map [remap completion-at-point]
-;;       'irony-completion-at-point-async)
-;;     (define-key irony-mode-map [remap complete-symbol]
-;;       'irony-completion-at-point-async))
-;;   (add-hook 'irony-mode-hook 'my-irony-mode-hook)
-;;   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-;;   )
+;(add-to-list 'company-c-headers-path-system "/mnt/c/devtools/WindRiver/diab/5.9.4.8/include/")
 
-;; (use-package company
-;;   :ensure t
-;;   :defer t
-;;   :init (add-hook 'after-init-hook 'global-company-mode)
-;;   :config
-;;   (use-package company-irony :ensure t :defer t)
-;;   (setq company-idle-delay              nil
-;;         company-minimum-prefix-length   2
-;;         company-show-numbers            t
-;;         company-tooltip-limit           20
-;;         company-dabbrev-downcase        nil
-;;         company-backends                '((company-irony company-gtags))
-;;         )
-;;   :bind ("C-;" . company-complete-common)
-;;   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;
+;;    MISC FUNCTION   ;;
+;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'setup-misc-functions)
 
 ;;;;;;;;;;;;;;;;;;;;
 ;;    Speedbar    ;;
@@ -217,6 +171,36 @@
 (setq sr-speedbar-width-x 40)
 
 
+;;;;;;;;;;;;;;;;;;;;
+;;   Projectile   ;;
+;;;;;;;;;;;;;;;;;;;;
+(require 'format-spec)
+(require 'projectile)
+(setq projectile-require-project-root nil)
+(setq projectile-enable-caching t)
+(setq projectile-globally-ignored-file-suffixes
+      (append '(
+                "ninja"
+                "elf"
+                )
+              projectile-globally-ignored-file-suffixes))
+(setq projectile-globally-ignored-files
+      (append '(
+                ;"GTAGS"
+                ;"GRTAGS"
+                ;"GPATH"
+                )
+              projectile-globally-ignored-files))
+
+(projectile-global-mode)
+;(global-set-key (kbd "C-c C-g") 'projectile-grep)
+
+
+
+
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -226,6 +210,7 @@
  '(custom-safe-themes
    (quote
     ("bf390ecb203806cbe351b966a88fc3036f3ff68cd2547db6ee3676e87327b311" "10a31b6c251640d04b2fa74bd2c05aaaee915cbca6501bcc82820cdc177f5a93" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "7356632cebc6a11a87bc5fcffaa49bae528026a78637acd03cae57c091afd9b9" "bcc6775934c9adf5f3bd1f428326ce0dcd34d743a92df48c128e6438b815b44f" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "0ee3fc6d2e0fc8715ff59aed2432510d98f7e76fe81d183a0eb96789f4d897ca" default)))
+ '(ggtags-navigation-mode t)
  '(ibuffer-saved-filter-groups
    (quote
     (("c-files-filter"
@@ -268,7 +253,8 @@
        (mode . gnus-article-mode))))))
  '(package-selected-packages
    (quote
-    (company-irony company-irony-c-headers company-c-headers company ac-c-headers persistent-scratch sr-speedbar use-package helm-projectile alect-themes hc-zenburn-theme zenburn-theme creamsody-theme yasnippet nyan-mode iedit function-args flycheck color-theme challenger-deep-theme auto-complete-c-headers))))
+    (helm-gtags helm-ag ag helm-ack magit helm-swoop zygospore clang-format company-irony company-irony-c-headers company-c-headers company ac-c-headers persistent-scratch sr-speedbar use-package helm-projectile alect-themes hc-zenburn-theme zenburn-theme creamsody-theme yasnippet nyan-mode iedit function-args flycheck color-theme challenger-deep-theme auto-complete-c-headers)))
+ '(safe-local-variable-values (quote ((projectile-project-name . "ptile-upf")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
