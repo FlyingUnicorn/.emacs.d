@@ -72,18 +72,17 @@
   (next-line 1)
   (yank)
   )
+
 (global-set-key (kbd "C-c d") 'duplicate-line)
 
 (global-set-key (kbd "C-x C-x") 'kill-this-buffer)
-
-;;(global-set-key (kbd "<f1>") 'keyboard-escape-quit)
-;; (global-unset-key (kbd "<ESC> <ESC>"))
-
-;(global-unset-key (kbd "C-c C-g"))
-;(global-set-key (kbd "C-c C-g") 'projectile-grep)
-
-(global-set-key (kbd "C-j") 'newline-and-indent)
 (global-set-key (kbd "C-q") 'backward-delete-char)
+
+
+(use-package avy
+  :ensure t
+  :bind ("C-j" . avy-goto-char)
+        ("M-g" . avy-goto-line))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;    Development    ;;
@@ -139,7 +138,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 ;;    SEMANTIC    ;;
 ;;;;;;;;;;;;;;;;;;;;
-(semantic-mode 1)
+;(semantic-mode 1)
 ;(semantic-add-system-include "/usr/local/include")
 ;(semantic-add-system-include "/mnt/c/devtools/WindRiver/diab/5.9.4.8/include")
 
@@ -151,7 +150,6 @@
 (global-company-mode 1)
 (add-hook 'global-init-hook 'global-company-mode)
 (add-to-list 'company-backends 'company-c-headers)
-;(add-to-list 'company-c-headers-path-system "/mnt/c/devtools/WindRiver/diab/5.9.4.8/include/")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -253,7 +251,7 @@
        (mode . gnus-article-mode))))))
  '(package-selected-packages
    (quote
-    (helm-gtags helm-ag ag helm-ack magit helm-swoop zygospore clang-format company-irony company-irony-c-headers company-c-headers company ac-c-headers persistent-scratch sr-speedbar use-package helm-projectile alect-themes hc-zenburn-theme zenburn-theme creamsody-theme yasnippet nyan-mode iedit function-args flycheck color-theme challenger-deep-theme auto-complete-c-headers)))
+    (tsx avy company-irony company-irony-c-headers irony helm-company helm-gtags magit helm-swoop zygospore clang-format company-c-headers company persistent-scratch sr-speedbar use-package helm-projectile alect-themes hc-zenburn-theme zenburn-theme creamsody-theme yasnippet nyan-mode iedit function-args flycheck color-theme challenger-deep-theme)))
  '(safe-local-variable-values (quote ((projectile-project-name . "ptile-upf")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
