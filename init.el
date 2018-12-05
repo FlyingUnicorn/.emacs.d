@@ -26,7 +26,7 @@
 
 ; theme color
 ;(load-theme 'alect-dark t)
-(load-theme 'wombat)
+(load-theme 'deeper-blue)
 
 ; add line numbers
 (global-linum-mode t)
@@ -84,6 +84,21 @@
   :bind ("C-j" . avy-goto-char)
         ("M-g" . avy-goto-line))
 
+(defun split-and-follow-horizontally()
+  (interactive)
+  (split-window-below)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+
+(defun split-and-follow-vertically()
+  (interactive)
+  (split-window-right)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+
+(global-hl-line-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;    Development    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -128,8 +143,8 @@
 ;;;;;;;;;;;;;;;;;;
 ;;    GGTAGS    ;;
 ;;;;;;;;;;;;;;;;;;
-(require 'setup-ggtags)
-
+;(require 'setup-ggtags)
+(require 'setup-rtags)
 ;;;;;;;;;;;;;;;;;
 ;;    HELM     ;;
 ;;;;;;;;;;;;;;;;;
@@ -145,11 +160,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;;    COMPANY MODE    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'company)
-(require 'company-c-headers)
-(global-company-mode 1)
-(add-hook 'global-init-hook 'global-company-mode)
-(add-to-list 'company-backends 'company-c-headers)
+;(require 'company)
+;(require 'company-c-headers)
+;(global-company-mode 1)
+;(add-hook 'global-init-hook 'global-company-mode)
+;(add-to-list 'company-backends 'company-c-headers)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
