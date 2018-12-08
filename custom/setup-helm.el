@@ -80,7 +80,7 @@
     (global-set-key (kbd "C-x C-f") 'helm-find-files)
     (global-set-key (kbd "C-c r") 'helm-recentf)
     (global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
-    (global-set-key (kbd "C-c h o") 'helm-occur)
+    (global-set-key (kbd "C-c o") 'helm-occur)
 
     (global-set-key (kbd "C-c h w") 'helm-wikipedia-suggest)
     (global-set-key (kbd "C-c h g") 'helm-google-suggest)
@@ -113,7 +113,7 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Locate the helm-swoop folder to your path
     (use-package helm-swoop
-      :bind (("C-c o" . helm-swoop)
+      :bind (("C-c h o" . helm-swoop)
              ("C-c s" . helm-multi-swoop-all))
       :config
       ;; When doing isearch, hand the word over to helm-swoop

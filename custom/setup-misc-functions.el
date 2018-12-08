@@ -71,25 +71,3 @@
   ;(ggtags-mode)
 )
 
-(defun open-this-hdr-src()
-  "Open this files header or source file."
-  (interactive)
-  (setq target_filename nil)
-  (setq this_filename (buffer-file-name))
-  (setq this_filename_ext (file-name-extension this_filename))
-
-  (cond ((string-equal this_filename_ext "c")
-           (setq target_filename (replace-regexp-in-string "\\.c" ".h" this_filename nil 'literal)))
-         ((string-equal this_filename_ext "h")
-            (setq target_filename (replace-regexp-in-string "\\.h" ".c" this_filename nil 'literal))))
-
-  (if target_filename
-    (if (file-exists-p target_filename)
-      (find-file target_filename)
-      (message "open-this-hdr-src - file does not exist: %s" target_filename))
-    (message "open-this-hdr-src - not valid file extention: .%s" this_filename_ext)))
-(global-set-key (kbd "C-c C-j") 'open-this-hdr-src)
-
-
-
-(provide 'setup-misc-functions)
