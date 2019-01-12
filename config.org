@@ -3,12 +3,13 @@
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-(toggle-scroll-bar -1)
+;(toggle-scroll-bar -1)
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(load-theme 'alect-dark t)
+;(load-theme 'alect-dark t)
+(load-theme 'kaolin-aurora)
 
 ;; scroll line-by-line when going outside selected buffer
 (setq scroll-conservatively 100)
@@ -46,7 +47,7 @@
 (setq-default indent-tabs-mode nil)
 
 ;; set appearance of a tab that is represented by 2 spaces
-(setq-default  tab-width 2)
+(setq-default  tab-width 4)
 
 ;; show unncessary whitespace that can mess up your diff
 (add-hook 'prog-mode-hook
@@ -60,7 +61,7 @@
 
 (setq
  c-default-style "bsd"
- c-basic-offset 2
+ c-basic-offset 4
 )
 
 ;; show function mane in lower status bar
@@ -384,7 +385,6 @@ Highlights line number
   (require 'flycheck-rtags)
   ;; c-mode-common-hook is also called by c++-mode
   (add-hook 'c-mode-common-hook #'setup-flycheck-rtags))
-(provide 'setup-rtags)
 #+END_SRC
 * FUNCTIONS
 ** Duplicate line
@@ -436,24 +436,16 @@ Highlights line number
 (defun open-this-hdr-src()
   "Open this files header or source file."
   (interactive)
-  (setq target_filename nil)
-  (setq this_filename (buffer-file-name))
-  (setq this_filename_ext (file-name-extension this_filename))
-
-  (cond ((string-equal this_filename_ext "c")
-           (setq target_filename (replace-regexp-in-string "\\.c" ".h" this_filename nil 'literal)))
-         ((string-equal this_filename_ext "h")
-            (setq target_filename (replace-regexp-in-string "\\.h" ".c" this_filename nil 'literal))))
-
-  (if target_filename
+  (setq target_filename (shell-command-to-string (format "python3 ~/.emacs.d/scripts/getSrcHdr.py %s" buffer-file-name)))
+  (if (> (length target_filename) 0)
     (if (file-exists-p target_filename)
-      (find-file target_filename)
-      (message "open-this-hdr-src - file does not exist: %s" target_filename))
-    (message "open-this-hdr-src - not valid file extention: .%s" this_filename_ext)))
+      (progn  
+        (message "found >>> %s" target_filename)
+        (find-file target_filename)))
+    (message "open-this-hdr-src - not valid file extention.")))
 (global-set-key (kbd "C-c C-j") 'open-this-hdr-src)
 #+END_SRC
-
-
+ 
 
 
 
