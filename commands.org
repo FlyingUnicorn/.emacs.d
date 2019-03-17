@@ -1,0 +1,41 @@
+
+* COMMANDS
+tutorial http://tuhdo.github.io/emacs-tutor.html
+
+** GENERAL
+M-</>           | Move to beginning/end of line
+M-a/e           | Move to beginning/end of sentence
+C-u C/M-v       | Scroll up/down lines without moving cursor
+C-M-v/q         | Scroll down/up other window (up is own keyset)
+C-x 4 C-f       | Open buffer in other window
+M-!             | Run shell command
+M-|             | Run Shell command for marked region
+ ...            | e.g. M-| sort - sort the marked lines
+ ...            |      M-1 M-| - sort and replace the marked lines
+M-<NUM> cmd     | Repeat cmd <NUM> times
+C-x h           | Select all
+M-=             | Info about current text/buffer
+~               | In IBuffer/Dired?, mark all backup files for deletion
+!               | In IBuffer/Dired?, run command on file
+M-%             | Query replace
+              y | replace the current match.
+              n | skip to the next match without replacing.
+              q | exit without doing any more replacements.
+              . | replace this match, then exit.
+              ! | replace all remaining matches with no more questions.
+C-M-f/b         | Move forward/backward over balanced expression
+C-M-SPC         | Mark balanced expression
+
+** BOOKMARKS
+C-x r m         | Set bookmark
+C-x r b         | Jump to bookmark
+C-x r l         | Show bookmark list (rebing to helm-bookmarks)
+              s | Save the current bookmark list to file
+              o | Open bookmark in other window move pointer to it
+            C-o | Similar to o but pointer remains in bookmark list
+              r | Rename bookmark at point
+              m | Mark bookmark at point for displaying
+              v | Display all marked bookmarks
+            d/m | Mark/unmark bookmark for deletion
+              x | Delete marked bookmarks
+              

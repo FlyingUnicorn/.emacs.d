@@ -1,4 +1,3 @@
-
 * GENERAL EMACS SETTINGS
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
@@ -16,6 +15,7 @@
 
 ;; Add formatted line numbers
 (global-linum-mode t)
+;(global-display-line-numbers-mode t)
 (setq linum-format "%4d ")
 
 ;; Highlight selcted row
@@ -23,6 +23,11 @@
 
 ;; It lets you move point from window to window using Shift and the arrow keys. 
 (windmove-default-keybindings)
+
+;; Always update buffers
+(global-auto-revert-mode t)
+
+(find-file "~/.emacs.d/commands.org")
 
 #+END_SRC
 
@@ -39,6 +44,10 @@
 
 ;; select and edit all matches at the same time
 (global-set-key (kbd "C-c ;") 'iedit-mode)
+
+(global-set-key (kbd "C-M-v") '(lambda() (interactive) (scroll-other-window 5)))
+(global-set-key (kbd "C-M-q") '(lambda() (interactive) (scroll-other-window -5)))
+
 #+END_SRC
 
 * DEVELOPMENT SETTINGS
@@ -266,15 +275,6 @@ Highlights line number
   :ensure t
   :config 
     (hlinum-activate))
-#+END_SRC
-
-** Persistent scratch
-#+BEGIN_SRC emacs-lisp
-(use-package persistent-scratch
-  :ensure t
-  :config
-    (persistent-scratch-setup-default)
-    (persistent-scratch-autosave-mode 1))
 #+END_SRC
 
 ** Zygospore
