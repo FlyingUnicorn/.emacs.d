@@ -1,4 +1,5 @@
 
+
 * GENERAL EMACS SETTINGS
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
@@ -16,6 +17,7 @@
 
 ;; Add formatted line numbers
 (global-linum-mode t)
+;(global-display-line-numbers-mode t)
 (setq linum-format "%4d ")
 
 ;; Highlight selcted row
@@ -23,6 +25,9 @@
 
 ;; It lets you move point from window to window using Shift and the arrow keys. 
 (windmove-default-keybindings)
+
+;; Always update buffers
+(global-auto-revert-mode t)
 
 #+END_SRC
 
