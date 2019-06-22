@@ -21,13 +21,16 @@
 ;; Highlight selcted row
 (global-hl-line-mode 1)
 
-;; It lets you move point from window to window using Shift and the arrow keys. 
+;; It lets you move point from window to window using Shift and the arrow keys.
 (windmove-default-keybindings)
 
 ;; Always update buffers
 (global-auto-revert-mode t)
 
 (find-file "~/.emacs.d/commands.org")
+
+;; Confirm killing emacs
+(setq confirm-kill-emacs #'y-or-n-p)
 
 #+END_SRC
 
@@ -55,8 +58,8 @@
 ;; use space to indent by default
 (setq-default indent-tabs-mode nil)
 
-;; set appearance of a tab that is represented by 2 spaces
-(setq-default  tab-width 4)
+(setq c-default-style "linux"
+      c-basic-offset 4)
 
 ;; show unncessary whitespace that can mess up your diff
 (add-hook 'prog-mode-hook
@@ -68,16 +71,29 @@
  gdb-show-main t
 )
 
-(setq
- c-default-style "bsd"
- c-basic-offset 4
-)
-
 ;; show function mane in lower status bar
 (which-function-mode 1)
+
+;; goto line
+(defun goto-line-and-center (line_num)
+  (interactive "Ngoto line: ")
+  (goto-line line_num)
+  (recenter)
+  )
+(global-set-key (kbd "M-g") 'goto-line-and-center)
+
+;; column indicator
+(add-hook 'c-mode-hook 'fci-mode)
+(setq fci-rule-width 2)
+(setq fci-rule-column 120)
+(setq fci-rule-color "orange")
+
+;; remove trailing whitespaces on save
+(add-hook 'c-mode-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+
 #+END_SRC
 
-* PACKAGES 
+* PACKAGES
 ** Helm
 #+BEGIN_SRC emacs-lisp
 (use-package helm
@@ -259,13 +275,12 @@
     (setq sr-speedbar-right-side nil)
     (setq sr-speedbar-width-x 40))
 #+END_SRC
-   
+
 ** Avy
 #+BEGIN_SRC emacs-lisp
 (use-package avy
   :ensure t
-  :bind ("C-j" . avy-goto-char-timer)
-        ("M-g" . avy-goto-line))
+  :bind ("C-j" . avy-goto-char-timer))
 #+END_SRC
 
 ** Hlinum
@@ -273,7 +288,7 @@ Highlights line number
 #+BEGIN_SRC emacs-lisp
 (use-package hlinum
   :ensure t
-  :config 
+  :config
     (hlinum-activate))
 #+END_SRC
 
@@ -283,7 +298,7 @@ Highlights line number
   :ensure t
   :bind ("C-x 1" . zygospore-toggle-delete-other-windows)
         ("RET" .   newline-and-indent))
-    
+
 
 ;;(use-package zygospore
 ;;  :bind (("C-x 1" . zygospore-toggle-delete-other-windows)
@@ -380,7 +395,7 @@ Highlights line number
   (define-key c-mode-base-map (kbd "M-[") (function rtags-location-stack-back))
   (define-key c-mode-base-map (kbd "M-]") (function rtags-location-stack-forward))
   (define-key c-mode-base-map (kbd "C-c C-f") (function rtags-find-file))
-  
+
   ;; use rtags flycheck mode -- clang warnings shown inline
   (require 'flycheck-rtags)
   ;; c-mode-common-hook is also called by c++-mode
@@ -440,22 +455,9 @@ Highlights line number
   (setq target_filename (shell-command-to-string (format "python3 ~/.emacs.d/scripts/getSrcHdr.py %s" buffer-file-name)))
   (if (> (length target_filename) 0)
     (if (file-exists-p target_filename)
-      (progn  
+      (progn
         (message "found >>> %s" target_filename)
         (find-file target_filename)))
     (message "open-this-hdr-src - not valid file extention.")))
 (global-set-key (kbd "C-c C-j") 'open-this-hdr-src)
 #+END_SRC
- 
-
-
-
-
-
-
-
-
-
-
-
-

@@ -3,15 +3,15 @@
 tutorial http://tuhdo.github.io/emacs-tutor.html
 
 ** GENERAL
-M-</>           | Move to beginning/end of line
+M-</>           | Move to beginning/end of buffer
 M-a/e           | Move to beginning/end of sentence
 C-u C/M-v       | Scroll up/down lines without moving cursor
 C-M-v/q         | Scroll down/up other window (up is own keyset)
 C-x 4 C-f       | Open buffer in other window
 M-!             | Run shell command
 M-|             | Run Shell command for marked region
- ...            | e.g. M-| sort - sort the marked lines
- ...            |      M-1 M-| - sort and replace the marked lines
+ ...            |   e.g. M-| sort - sort the marked lines
+ ...            |        M-1 M-| - sort and replace the marked lines
 M-<NUM> cmd     | Repeat cmd <NUM> times
 C-x h           | Select all
 M-=             | Info about current text/buffer
@@ -38,4 +38,7 @@ C-x r l         | Show bookmark list (rebing to helm-bookmarks)
               v | Display all marked bookmarks
             d/m | Mark/unmark bookmark for deletion
               x | Delete marked bookmarks
-              
+
+** OTHER
+* Column width mode
+C-u 120 M-x column-enforce-n
